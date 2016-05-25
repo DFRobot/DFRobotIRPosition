@@ -17,10 +17,10 @@
 #ifndef DFRobotIRPosition_cpp
   #define DFRobotIRPosition_cpp
 
+const int IRAddress = 0xB0 >> 1; ///< IIC address of the sensor
+
 class DFRobotIRPosition {
 
-  const int IRAddress = 0xB0 >> 1; ///< IIC address of the sensor
-  
   /*!
    *  @brief position data structure from IIC sensor
    */
