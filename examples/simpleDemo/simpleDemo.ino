@@ -53,7 +53,7 @@ void loop()
    *  @brief If there is data available, print it. Otherwise show the error message.
    */
   if (myDFRobotIRPosition.available()) {
-    for (int i=0; i<3; i++) {
+    for (int i=0; i<4; i++) {
       positionX[i]=myDFRobotIRPosition.readX(i);
       positionY[i]=myDFRobotIRPosition.readY(i);
     }
@@ -72,7 +72,7 @@ void loop()
  */
 void printResult()
 {
-  for (int i=0; i<3; i++) {
+  for (int i=0; i<4; i++) {
     Serial.print(positionX[i]);
     Serial.print(",");
     
