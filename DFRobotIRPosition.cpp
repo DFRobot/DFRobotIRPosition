@@ -71,6 +71,8 @@ bool DFRobotIRPosition::available()
 
       positionY[i] = (uint16_t)(positionData.positionFrame.rawPosition[i].yLowByte)
       + ((uint16_t)(positionData.positionFrame.rawPosition[i].xyHighByte & 0xC0U) << 2);
+
+      blobSize[i] = (uint16_t)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x0F);
     }
     return true;
   }
@@ -92,6 +94,10 @@ int DFRobotIRPosition::readY(int index)
   return positionY[index];
 }
 
+int DFRobotIRPosition::readSize(int index)
+{
+  return blobSize[index];
+}
 
 
 

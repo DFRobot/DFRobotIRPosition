@@ -13,7 +13,6 @@
  * @date  2016-02-17
  */
 
-#include "Arduino.h"
 #include "Wire.h"
 
 /*!
@@ -24,8 +23,10 @@
 
 DFRobotIRPosition myDFRobotIRPosition;
 
-int positionX[4];     ///< Store the X position
-int positionY[4];     ///< Store the Y position
+int positionX[4];     // Store beacon X position
+int positionY[4];     // Store beacon Y position
+int blobSize[4]; // Store beacon size
+
 
 /*!
  *  @brief Print the position result.
@@ -56,6 +57,7 @@ void loop()
     for (int i=0; i<4; i++) {
       positionX[i]=myDFRobotIRPosition.readX(i);
       positionY[i]=myDFRobotIRPosition.readY(i);
+      blobSize[i]=myDFRobotIRPosition.readSize(i);
     }
 
     printResult();
@@ -74,9 +76,12 @@ void printResult()
 {
   for (int i=0; i<4; i++) {
     Serial.print(positionX[i]);
-    Serial.print(",");
+    Serial.print(" ");
     
     Serial.print(positionY[i]);
+    Serial.print(" ");
+
+    Serial.print(blobSize[i]);
     Serial.print(";");
   }
   Serial.println();

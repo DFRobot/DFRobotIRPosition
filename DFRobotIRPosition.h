@@ -38,6 +38,7 @@ class DFRobotIRPosition {
   
   int positionX[4];   ///< position x.
   int positionY[4];   ///< position y.
+  int blobSize[4];   ///< blob size
   
   /*!
    *  @brief write two byte into the sensor to initialize and send data.
@@ -95,6 +96,15 @@ public:
    *  @return The Y position corresponing to the index.
    */
   int readY(int index);
+  
+  /*!
+   *  @brief get the size of the point, 15 means empty.
+   *
+   *  @param index The index of the 4 light objects ranging from 0 to 3,
+   *
+   *  @return The size corresponing to the index.
+   */
+  int readSize(int index);
 };
 
 
