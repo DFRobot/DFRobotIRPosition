@@ -23,9 +23,9 @@
 
 DFRobotIRPosition myDFRobotIRPosition;
 
-int positionX[4];     // Store beacon X position
-int positionY[4];     // Store beacon Y position
-int blobSize[4]; // Store beacon size
+unsigned short positionX[4];     // Store beacon X position
+unsigned short positionY[4];     // Store beacon Y position
+byte blobSize[4]; // Store beacon size
 
 
 /*!
@@ -54,7 +54,7 @@ void loop()
    *  @brief If there is data available, print it. Otherwise show the error message.
    */
   if (myDFRobotIRPosition.available()) {
-    for (int i=0; i<4; i++) {
+    for (byte i=0; i<4; i++) {
       positionX[i]=myDFRobotIRPosition.readX(i);
       positionY[i]=myDFRobotIRPosition.readY(i);
       blobSize[i]=myDFRobotIRPosition.readSize(i);
@@ -74,7 +74,7 @@ void loop()
  */
 void printResult()
 {
-  for (int i=0; i<4; i++) {
+  for (byte i=0; i<4; i++) {
     Serial.print(positionX[i]);
     Serial.print(" ");
     

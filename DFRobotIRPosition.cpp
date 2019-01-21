@@ -61,11 +61,11 @@ void DFRobotIRPosition::requestPosition()
 bool DFRobotIRPosition::available()
 {
   if (Wire.available() == 16) {   //read only the data lenth fits.
-    for (int i=0; i<16; i++) {
+    for (byte i=0; i<16; i++) {
       positionData.receivedBuffer[i]=Wire.read();
     }
     
-    for (int i=0; i<4; i++) {
+    for (byte i=0; i<4; i++) {
       positionX[i] = (uint16_t)(positionData.positionFrame.rawPosition[i].xLowByte)
       + ((uint16_t)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x30U) << 4);
 
@@ -84,17 +84,17 @@ bool DFRobotIRPosition::available()
   }
 }
 
-int DFRobotIRPosition::readX(int index)
+unsigned short DFRobotIRPosition::readX(byte index)
 {
   return positionX[index];
 }
 
-int DFRobotIRPosition::readY(int index)
+unsigned short DFRobotIRPosition::readY(byte index)
 {
   return positionY[index];
 }
 
-int DFRobotIRPosition::readSize(int index)
+byte DFRobotIRPosition::readSize(byte index)
 {
   return blobSize[index];
 }
