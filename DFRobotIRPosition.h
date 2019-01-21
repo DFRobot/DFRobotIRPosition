@@ -36,9 +36,9 @@ class DFRobotIRPosition {
     }__attribute__ ((packed))positionFrame;
   }__attribute__ ((packed)) positionData;
   
-  int positionX[4];   ///< position x.
-  int positionY[4];   ///< position y.
-  int blobSize[4];   ///< blob size
+  unsigned short positionX[4];   ///< position x.
+  unsigned short positionY[4];   ///< position y.
+  byte blobSize[4];   ///< blob size
   
   /*!
    *  @brief write two byte into the sensor to initialize and send data.
@@ -86,7 +86,7 @@ public:
    *
    *  @return The X position corresponing to the index.
    */
-  int readX(int index);
+  unsigned short readX(byte index);
   
   /*!
    *  @brief get the Y position of the point, 1023 means empty.
@@ -95,7 +95,7 @@ public:
    *
    *  @return The Y position corresponing to the index.
    */
-  int readY(int index);
+  unsigned short readY(byte index);
   
   /*!
    *  @brief get the size of the point, 15 means empty.
@@ -104,7 +104,7 @@ public:
    *
    *  @return The size corresponing to the index.
    */
-  int readSize(int index);
+  byte readSize(byte index);
 };
 
 
