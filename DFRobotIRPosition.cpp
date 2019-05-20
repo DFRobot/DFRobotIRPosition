@@ -86,7 +86,7 @@ bool DFRobotIRPosition::available()
 		// Set detected blobs status
 		for (byte i=0; i<4; i++)
 		{
-			blobVisible[i] = blobSize[i] != resZ; // Blob status
+			blobVisible[i] = blobSize[i] != 15; // Blob status
 			blobCount += blobVisible[i];
 		}
 
