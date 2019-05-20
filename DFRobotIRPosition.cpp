@@ -83,9 +83,12 @@ bool DFRobotIRPosition::available()
 			blobSize[i] = (unsigned short)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x0F);
 		}
 
-		// Set number of detected blobs
+		// Set detected blobs status
 		for (byte i=0; i<4; i++)
-		{ blobCount += blobSize[i] != resZ; }
+		{
+			blobVisible[i] = blobSize[i] != resZ; // Blob status
+			blobCount += blobVisible[i];
+		}
 
 		return true;
 	}
@@ -104,6 +107,9 @@ unsigned short DFRobotIRPosition::readY(byte index)
 
 byte DFRobotIRPosition::readSize(byte index)
 { return blobSize[index]; }
+
+bool DFRobotIRPosition::detected(byte index)
+{ return blobVisible[index]; }
 
 byte DFRobotIRPosition::count()
 { return blobCount; }

@@ -84,14 +84,19 @@ void printResult()
 	{
 		for (byte i=0; i<4; i++)
 		{
-			Serial.print(positionX[i]);
-			Serial.print(",");
+			// Print only visible blobs position (max 4)
+			if ( myDFRobotIRPosition.detected(i) )
+			{
+				Serial.print(positionX[i]);
+				Serial.print(",");
 
-			Serial.print(positionY[i]);
-			Serial.print(",");
+				Serial.print(positionY[i]);
+				Serial.print(",");
 
-			Serial.print(blobSize[i],1);
-			Serial.print(";");
+				Serial.print(blobSize[i],1);
+				Serial.print(";");
+			}
+			else Serial.print("none,none,none;");
 		}
 		Serial.println();
 	}

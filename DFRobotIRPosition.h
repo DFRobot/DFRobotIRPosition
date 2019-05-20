@@ -41,6 +41,7 @@ class DFRobotIRPosition
 	unsigned short positionX[4]; // position x.
 	unsigned short positionY[4]; // position y.
 	byte blobSize[4]; // blob size
+	bool blobVisible[4]; // blob detection status
 	byte blobCount; // number of detected blobs
 
 	// Write two byte into the sensor to initialize and send data.
@@ -81,6 +82,11 @@ class DFRobotIRPosition
 		// input the index of the 4 light objects ranging from 0 to 3,
 		// returns The size corresponing to the index.
 		byte readSize(byte index);
+
+		// Get the visibility of given blob
+		// input the index of the 4 light objects ranging from 0 to 3,
+		// returns The detection status corresponing to the index.
+		bool detected(byte index);
 
 		// Get the number of detected points from 0 to 4.
 		byte count();
