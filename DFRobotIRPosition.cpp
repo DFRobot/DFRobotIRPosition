@@ -1,122 +1,109 @@
-/*!
- * @file DFRobotIRPosition.cpp
- * @brief DFRobot's Positioning ir camera
- * @n CPP file for DFRobot's Positioning ir camera
- *
- * @copyright	[DFRobot](http://www.dfrobot.com), 2016
- * @copyright	GNU Lesser General Public License
- *
- * @author [Angelo](Angelo.qiao@dfrobot.com)
- * @version  V1.0
- * @date  2016-02-17
- */
+/*
+	DFRobotIRPosition.cpp
+	DFRobot's Positioning ir camera
+	CPP source file for DFRobot's Positioning ir camera
 
+	Copyright (c) DFRobot, 2016
+	GNU Lesser General Public License
+
+	author Angelo, Angelo.qiao@dfrobot.com
+	edited by JMF, https://github.com/Fubaxiusz
+	version V1.1
+	May 20, 2019
+*/
+
+#include "Arduino.h"
+#include "Wire.h"
 #include "DFRobotIRPosition.h"
 
+// Constructor
 DFRobotIRPosition::DFRobotIRPosition()
 {
-  
+	
 }
 
+// Desctructor
 DFRobotIRPosition::~DFRobotIRPosition()
 {
-  
+	
 }
 
-void DFRobotIRPosition::writeTwoIICByte(uint8_t first, uint8_t second)
+void DFRobotIRPosition::writeTwoIICByte(byte first, byte second)
 {
-  Wire.beginTransmission(IRAddress);
-  Wire.write(first);
-  Wire.write(second);
-  Wire.endTransmission();
+	Wire.beginTransmission(IRAddress);
+	Wire.write(first);
+	Wire.write(second);
+	Wire.endTransmission();
 }
 
 void DFRobotIRPosition::begin()
 {
-  Wire.begin();
-  writeTwoIICByte(0x30,0x01);
-  delay(10);
-  writeTwoIICByte(0x30,0x08);
-  delay(10);
-  writeTwoIICByte(0x06,0x90);
-  delay(10);
-  writeTwoIICByte(0x08,0xC0);
-  delay(10);
-  writeTwoIICByte(0x1A,0x40);
-  delay(10);
-  writeTwoIICByte(0x33,0x33);
-  delay(10);
-  
-  delay(100);
+	Wire.begin();
+	writeTwoIICByte(0x30,0x01);
+	delay(10);
+	writeTwoIICByte(0x30,0x08);
+	delay(10);
+	writeTwoIICByte(0x06,0x90);
+	delay(10);
+	writeTwoIICByte(0x08,0xC0);
+	delay(10);
+	writeTwoIICByte(0x1A,0x40);
+	delay(10);
+	writeTwoIICByte(0x33,0x33);
+	delay(10);
+
+	delay(100);
 }
 
 void DFRobotIRPosition::requestPosition()
 {
-  Wire.beginTransmission(IRAddress);
-  Wire.write(0x36);
-  Wire.endTransmission();
-  Wire.requestFrom(IRAddress, 16);
+	Wire.beginTransmission(IRAddress);
+	Wire.write(0x36);
+	Wire.endTransmission();
+	Wire.requestFrom(IRAddress, 16);
 }
 
 bool DFRobotIRPosition::available()
 {
-  if (Wire.available() == 16) {   //read only the data lenth fits.
-    for (byte i=0; i<16; i++) {
-      positionData.receivedBuffer[i]=Wire.read();
-    }
-    
-    for (byte i=0; i<4; i++) {
-      positionX[i] = (uint16_t)(positionData.positionFrame.rawPosition[i].xLowByte)
-      + ((uint16_t)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x30U) << 4);
+	blobCount = 0; // Set initial number of detected blobs
 
-      positionY[i] = (uint16_t)(positionData.positionFrame.rawPosition[i].yLowByte)
-      + ((uint16_t)(positionData.positionFrame.rawPosition[i].xyHighByte & 0xC0U) << 2);
+	if (Wire.available() == 16) // read only the data lenth fits.
+	{
+		for (byte i=0; i<16; i++)
+		{ positionData.receivedBuffer[i]=Wire.read(); }
 
-      blobSize[i] = (uint16_t)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x0F);
-    }
-    return true;
-  }
-  else{   //otherwise skip them.
-    while (Wire.available()) {
-      Wire.read();
-    }
-    return false;
-  }
+		for (byte i=0; i<4; i++)
+		{
+			positionX[i] = (unsigned short)(positionData.positionFrame.rawPosition[i].xLowByte)
+			+ ((unsigned short)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x30U) << 4);
+
+			positionY[i] = (unsigned short)(positionData.positionFrame.rawPosition[i].yLowByte)
+			+ ((unsigned short)(positionData.positionFrame.rawPosition[i].xyHighByte & 0xC0U) << 2);
+
+			blobSize[i] = (unsigned short)(positionData.positionFrame.rawPosition[i].xyHighByte & 0x0F);
+		}
+
+		// Set number of detected blobs
+		for (byte i=0; i<4; i++)
+		{ blobCount += blobSize[i] != resZ; }
+
+		return true;
+	}
+	else // otherwise skip them.
+	{
+		while ( Wire.available() ) { Wire.read(); }
+		return false;
+	}
 }
 
 unsigned short DFRobotIRPosition::readX(byte index)
-{
-  return positionX[index];
-}
+{ return positionX[index]; }
 
 unsigned short DFRobotIRPosition::readY(byte index)
-{
-  return positionY[index];
-}
+{ return positionY[index]; }
 
 byte DFRobotIRPosition::readSize(byte index)
-{
-  return blobSize[index];
-}
+{ return blobSize[index]; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+byte DFRobotIRPosition::count()
+{ return blobCount; }

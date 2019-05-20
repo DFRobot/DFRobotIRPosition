@@ -11,5 +11,6 @@ DFRobot's Positioning ir camera
  * Copyright	GNU Lesser General Public License
  *
  * author [Angelo](Angelo.qiao@dfrobot.com)
- * version  V1.0
- * date  2016-02-17
+ * edited by [JMF](https://github.com/Fubaxiusz)
+ * version  V1.1
+ * date May 20, 2019
