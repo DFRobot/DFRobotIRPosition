@@ -31,26 +31,24 @@ DFRobotIRPosition::~DFRobotIRPosition()
 void DFRobotIRPosition::writeTwoIICByte(byte first, byte second)
 {
 	Wire.beginTransmission(IRAddress);
+	delay(50);
 	Wire.write(first);
+	delay(50);
 	Wire.write(second);
+	delay(50);
 	Wire.endTransmission();
+	delay(50);
 }
 
 void DFRobotIRPosition::begin()
 {
 	Wire.begin();
 	writeTwoIICByte(0x30,0x01);
-	delay(10);
 	writeTwoIICByte(0x30,0x08);
-	delay(10);
 	writeTwoIICByte(0x06,0x90);
-	delay(10);
 	writeTwoIICByte(0x08,0xC0);
-	delay(10);
 	writeTwoIICByte(0x1A,0x40);
-	delay(10);
 	writeTwoIICByte(0x33,0x33);
-	delay(10);
 
 	delay(100);
 }
@@ -103,7 +101,7 @@ unsigned short DFRobotIRPosition::readX(byte index)
 { return positionX[index]; }
 
 unsigned short DFRobotIRPosition::readY(byte index)
-{ return positionY[index]; }
+{ return positionY[index] != resX ? resY-positionY[index] : resX; }
 
 byte DFRobotIRPosition::readSize(byte index)
 { return blobSize[index]; }
