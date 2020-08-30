@@ -17,16 +17,9 @@
 #include "DFRobotIRPosition.h"
 
 // Constructor
-DFRobotIRPosition::DFRobotIRPosition()
-{
-	
-}
-
-// Desctructor
-DFRobotIRPosition::~DFRobotIRPosition()
-{
-	
-}
+DFRobotIRPosition::DFRobotIRPosition() {}
+// Destructor
+DFRobotIRPosition::~DFRobotIRPosition() {}
 
 void DFRobotIRPosition::writeTwoIICByte(byte first, byte second)
 {
@@ -65,7 +58,7 @@ bool DFRobotIRPosition::available()
 {
 	blobCount = 0; // Set initial number of detected blobs
 
-	if (Wire.available() == 16) // read only the data lenth fits.
+	if (Wire.available() == 16) // read only if data length fits
 	{
 		for (byte i=0; i<16; i++)
 		{ positionData.receivedBuffer[i]=Wire.read(); }
@@ -90,7 +83,7 @@ bool DFRobotIRPosition::available()
 
 		return true;
 	}
-	else // otherwise skip them.
+	else // otherwise skip them
 	{
 		while ( Wire.available() ) { Wire.read(); }
 		return false;
@@ -101,7 +94,7 @@ unsigned short DFRobotIRPosition::readX(byte index)
 { return positionX[index]; }
 
 unsigned short DFRobotIRPosition::readY(byte index)
-{ return positionY[index] != resX ? resY-positionY[index] : resX; }
+{ return positionY[index]; }
 
 byte DFRobotIRPosition::readSize(byte index)
 { return blobSize[index]; }

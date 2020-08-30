@@ -70,31 +70,31 @@ class DFRobotIRPosition
 
 		// Get the X position of the point (0-1023), 1023 means empty.
 		// input the index of the 4 light objects ranging from 0 to 3,
-		// returns The X position corresponing to the index.
+		// returns The X position corresponding to the index.
 		unsigned short readX(byte index);
 
 		// Get the Y position of the point (0-767), 1023 means empty.
 		// input the index of the 4 light objects ranging from 0 to 3,
-		// returns The Y position corresponing to the index.
+		// returns The Y position corresponding to the index.
 		unsigned short readY(byte index);
 
 		// Get the size of the point (0-7), 15 means empty.
 		// input the index of the 4 light objects ranging from 0 to 3,
-		// returns The size corresponing to the index.
+		// returns The size corresponding to the index.
 		byte readSize(byte index);
 
 		// Get the visibility of given blob
 		// input the index of the 4 light objects ranging from 0 to 3,
-		// returns The detection status corresponing to the index.
+		// returns The detection status corresponding to the index.
 		bool detected(byte index);
 
 		// Get the number of detected points from 0 to 4.
 		byte count();
 
 		// Store sensor resolution info
-		const unsigned short resX = 1023;
-		const unsigned short resY = 767;
-		const byte resZ = 7;
+		const unsigned short width = 1023;
+		const unsigned short height = 767;
+		const byte size = 7;
 };
 
 
